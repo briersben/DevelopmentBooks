@@ -1,0 +1,42 @@
+[
+    {
+      "id": 1,
+      "title": "Clean Code",
+      "author": "Robert Martin",
+      "year": 2008,
+      "price": 50.0,
+      "imageUrl": "https://github.com/stephane-genicot/katas/raw/master/images/Kata_DevelopmentBooks_CleanCode.png?raw=true"
+    },
+    {
+      "id": 2,
+      "title": "The Clean Coder",
+      "author": "Robert Martin",
+      "year": 2011,
+      "price": 50.2,
+      "imageUrl": "https://github.com/stephane-genicot/katas/raw/master/images/Kata_DevelopmentBooks_CleanCoder.png?raw=true"
+    },
+    {
+      "id": 3,
+      "title": "Clean Architecture",
+      "author": "Robert Martin",
+      "year": 2017,
+      "price": 50.0,
+      "imageUrl": "https://github.com/stephane-genicot/katas/raw/master/images/Kata_DevelopmentBooks_CleanArchitecture.jpeg?raw=true"
+    },
+    {
+      "id": 4,
+      "title": "Test-Driven Development By Example",
+      "author": "Kent Beck",
+      "year": 2003,
+      "price": 50.0,
+      "imageUrl": "https://github.com/stephane-genicot/katas/raw/master/images/Kata_DevelopmentBooks_TDD.jpeg?raw=true"
+    },
+    {
+      "id": 5,
+      "title": "Working Effectively With Legacy Code",
+      "author": "Michael C. Feathers",
+      "year": 2004,
+      "price": 50.0,
+      "imageUrl": "https://github.com/stephane-genicot/katas/raw/master/images/Kata_DevelopmentBooks_Refactoring.jpeg?raw=true"
+    }
+  ]
