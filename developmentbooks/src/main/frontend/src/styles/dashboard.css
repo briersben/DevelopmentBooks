@@ -1,0 +1,144 @@
+.header{
+    background-color: #243963;
+    text-align: center;
+}
+
+.title {
+    padding: 12px;
+    margin: 0 auto;
+    color: white;
+}
+
+.content{
+    display: -webkit-inline-box;
+}
+
+.products {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    float: left;
+}
+
+.product{
+    display: block;
+    margin: 0.9rem 1.2rem;
+    background: 2px #f3f3f3;
+    border: 1px solid #aaa;
+    padding: 1.2rem 0.6rem 0.6rem 0.6rem;
+    text-align: center;
+    line-height: 0.6rem;
+}
+
+.product-image{
+    height: 262px;
+}
+
+.product-title{
+  color: #292b83;
+  font-size: 0.9rem;
+  font-weight: bold;
+}
+
+.author-year{
+    font-size: 0.9rem; 
+    font-style: italic;
+}
+
+.author{
+    font-weight: 500;
+}
+
+.year{
+    margin: 0px 2px;
+}
+
+.product-price{
+    font-weight: bolder;
+}
+
+[data-quantity] {
+    display: inline-block;
+    width: 7.8rem !important;
+}
+
+[data-quantity] input {
+    background-color: #4297ef !important;
+    width: 7.8rem !important;
+}
+
+.discount-cart-panel{
+    float: left;
+    margin: 0 auto;
+}
+  
+.discount{
+    border-radius: 20px;
+    background: #94bb38;
+    padding: 2rem 3.4rem;
+    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+    font-style: italic;
+    font-size: x-large;
+    list-style: circle;
+    line-height: 3.2rem;
+    color: darkgreen;
+}
+
+.cart {
+    background-color: #eee;
+    border: 1px solid #aaa;
+    line-height: 2rem;
+    padding: 1rem;
+    font-weight: bold;
+  }
+  
+.calculate-price-btn {
+    display: block;
+    font-size: 0.9rem;
+    margin: 0 auto;
+    width: 80%;
+    text-align: center;
+    text-transform: uppercase;
+    background-color: green;
+    font-weight: bold;
+    padding: 0.625rem;
+    cursor: pointer;
+    border-radius: 10px;
+}
+
+.calculate-price-btn:hover {
+    background-color:darkgreen;
+    transition: 0.7s;
+}
+
+.calculate-price-btn:disabled {
+    background-color:grey;
+ }
+
+ .calculate-price-btn:enabled {
+    color: #eee;
+ }
+
+ .price{
+    font-size: larger;
+ }
+
+.line_through{
+    text-decoration: line-through;
+}
+
+.discounted-price{
+    font-size: larger;
+    color: darkgreen;
+}
+
+.discount-item-summary{
+    color: darkgreen;
+}
+
+.discount-summary{
+    text-align: left;
+}
+
+.undiscounted-item-summary{
+    color: darkslategray;
+}

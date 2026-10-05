@@ -1,0 +1,4 @@
+{
+    "java.jdt.ls.vmargs": "-XX:+UseParallelGC -XX:GCTimeRatio=4 -XX:AdaptiveSizePolicyWeight=90 -Dsun.zip.disableMemoryMapping=true -Xmx8G -Xms512m -Dhttp.proxyHost=userproxydc1.gtm.ext.corp -Dhttp.proxyPort=8080 -Dhttps.proxyHost=userproxydc1.gtm.ext.corp -Dhttps.proxyPort=8080 -Djdk.http.ntlm.transparentAuth=allHosts",
+    "java.configuration.updateBuildConfiguration": "interactive"
+}
