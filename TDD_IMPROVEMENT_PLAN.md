@@ -23,7 +23,10 @@ Status key: `[ ]` not started, `[~]` in progress, `[x]` completed
 - [ ] **6. Add frontend error-state test + handling** — `Product.test.js`/`Dashboard.test.js`
       likely only cover the happy path. Add an RTL test simulating a failed fetch (404/400 from
       steps 1-3), assert an error message renders, then implement the UI error state.
-- [ ] **7. Add OpenAPI/Swagger docs** via `springdoc-openapi`; smoke test `/v3/api-docs` returns 200.
+- [x] **7. Add OpenAPI/Swagger docs** via `springdoc-openapi`; smoke test `/v3/api-docs` returns 200.
+      Done 2026-10-07: added `springdoc-openapi-starter-webmvc-ui`, an `OpenApiConfig` info bean,
+      `@Tag`/`@Operation` annotations on the controller, and `OpenApiDocumentationTest` covering
+      `/v3/api-docs` and `/swagger-ui/index.html`. Verified manually in-browser.
 
 ## Context / key files
 - Service: `developmentbooks/src/main/java/com/bnpp/katas/developmentbooks/service/CalculatePriceService.java`
