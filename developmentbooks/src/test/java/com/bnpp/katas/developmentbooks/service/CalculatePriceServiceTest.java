@@ -42,6 +42,7 @@ class CalculatePriceServiceTest {
 	private static final double ACTUALPRICE_OF_EIGHT_BOOKS = 400.00;
 	private static final double DISCOUNTPRICE_FOR_EIGHT_BOOKS = 80.00;
 	private static final double PRICE_OF_EIGHT_BOOKS_AFTER_DISCOUNT = 320.00;
+	private static final double PRICE_OF_FIVE_COPIES_OF_SAME_BOOK = 250.00;
 
 	@Autowired
 	private CalculatePriceService calculatePriceService;
@@ -216,5 +217,19 @@ class CalculatePriceServiceTest {
 		assertEquals(ACTUALPRICE_OF_EIGHT_BOOKS, priceSummary.getActualPrice());
 		assertEquals(DISCOUNTPRICE_FOR_EIGHT_BOOKS, priceSummary.getTotalDiscount());
 		assertEquals(PRICE_OF_EIGHT_BOOKS_AFTER_DISCOUNT, priceSummary.getFinalPrice());
+	}
+
+	@Test
+	@DisplayName("calculate price should merge quantities when the same book id appears in multiple entries")
+	void calculatePrice_shouldMergeQuantitiesForDuplicateBookIdEntries() {
+		List<BookDto> listOfBooks = new ArrayList<BookDto>();
+		BookDto firstEntry = new BookDto(ONE, TWO);
+		BookDto secondEntry = new BookDto(ONE, THREE);
+		listOfBooks.add(firstEntry);
+		listOfBooks.add(secondEntry);
+
+		Double finalPrice = calculatePriceService.getPriceSummary(listOfBooks).getFinalPrice();
+
+		assertEquals(PRICE_OF_FIVE_COPIES_OF_SAME_BOOK, finalPrice);
 	}
 }

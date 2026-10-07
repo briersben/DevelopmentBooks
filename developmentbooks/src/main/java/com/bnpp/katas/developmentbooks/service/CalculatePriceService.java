@@ -33,8 +33,9 @@ public class CalculatePriceService {
 
 	public PriceSummaryDto getPriceSummary(List<BookDto> listOfBooks) {
 		validateBooks(listOfBooks);
+		// merge quantities when the same book id appears in multiple entries
 		Map<Integer, Integer> bookIdQuantityMap = listOfBooks.stream()
-				.collect(Collectors.toMap(BookDto::getId, BookDto::getQuantity));
+				.collect(Collectors.toMap(BookDto::getId, BookDto::getQuantity, Integer::sum));
 		List<Integer> listOfApplicableDiscounts = getApplicableDiscounts(bookIdQuantityMap.size());
 		PriceSummaryDto priceSummaryDto = new PriceSummaryDto();
 		if (CollectionUtils.isNotEmpty(listOfApplicableDiscounts)) {

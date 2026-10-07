@@ -4,7 +4,7 @@ Created 2026-10-05. Tracks follow-up improvements identified beyond the baseline
 
 Status key: `[ ]` not started, `[~]` in progress, `[x]` completed
 
-- [ ] **1. Fix duplicate book-id crash** — `CalculatePriceService.getPriceSummary` uses
+- [x] **1. Fix duplicate book-id crash** — `CalculatePriceService.getPriceSummary` uses
       `Collectors.toMap(BookDto::getId, BookDto::getQuantity)` with no merge function —
       duplicate ids in the POST body throw an unhandled `IllegalStateException` (500).
       Fix: add a merge function (`Integer::sum`). Test first in `CalculatePriceServiceTest`.
