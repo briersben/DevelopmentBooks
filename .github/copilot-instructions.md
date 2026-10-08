@@ -10,7 +10,7 @@ Calculate the best price of any shopping basket of the 5 "Development Books" usi
 - Duplicate copies within a group don't count toward the discount set; the optimal solution groups books to minimize total price (e.g. [4,4] beats [5,3] for 8 books: 2 different titles duplicated).
 
 ## Stack
-- Backend: Java 21, Spring Boot 4.1.1, Maven 3.9.12
+- Backend: Java 25, Spring Boot 4.1.1, Maven 3.9.12
 - Frontend: ReactJS 17.0.2 (under `developmentbooks/src/main/frontend`)
 - Base package: `com.bnpp.katas.developmentbooks`
 

@@ -42,7 +42,7 @@ Develop a application to **calculate the best price** of any conceivable shoppin
 
 # Tools used for developing this application 
 
-- **Backend** : Java 21 & Spring Boot 4.1.1
+- **Backend** : Java 25 & Spring Boot 4.1.1
 - **Frontend**: ReactJS 17.0.2
 - **Build tool**: Maven 3.9.12
 
