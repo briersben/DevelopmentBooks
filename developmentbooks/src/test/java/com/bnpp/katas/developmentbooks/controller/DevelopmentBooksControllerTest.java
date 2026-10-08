@@ -23,6 +23,7 @@ import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
 
 import com.bnpp.katas.developmentbooks.dto.BookDto;
+import com.bnpp.katas.developmentbooks.dto.PriceSummaryDto;
 import com.bnpp.katas.developmentbooks.exceptions.BookNotFoundException;
 import com.bnpp.katas.developmentbooks.service.CalculatePriceService;
 import com.bnpp.katas.developmentbooks.service.DevelopmentBooksService;
@@ -82,6 +83,25 @@ class DevelopmentBooksControllerTest {
 
 		mockMvc.perform(post(FETCH_PRICE_SUMMARY_ENDPOINT).contentType(MediaType.APPLICATION_JSON)
 				.content(new JsonMapper().writeValueAsString(listOfBooks))).andExpect(status().isOk());
+	}
+
+	@Test
+	@DisplayName("API fetchPriceSummary should return a zero price summary for an empty basket")
+	void fetchPriceSummary_Api_shouldReturnZeroPriceSummaryForEmptyBasket() throws Exception {
+		when(calculatePriceService.getPriceSummary(anyList())).thenReturn(new PriceSummaryDto());
+
+		mockMvc.perform(post(FETCH_PRICE_SUMMARY_ENDPOINT).contentType(MediaType.APPLICATION_JSON).content("[]"))
+				.andExpect(status().isOk())
+				.andExpect(jsonPath("$.actualPrice").value(0.0))
+				.andExpect(jsonPath("$.totalDiscount").value(0.0))
+				.andExpect(jsonPath("$.finalPrice").value(0.0));
+	}
+
+	@Test
+	@DisplayName("API fetchPriceSummary should reject a null basket")
+	void fetchPriceSummary_Api_shouldRejectNullBasket() throws Exception {
+		mockMvc.perform(post(FETCH_PRICE_SUMMARY_ENDPOINT).contentType(MediaType.APPLICATION_JSON).content("null"))
+				.andExpect(status().isBadRequest());
 	}
 
 	@Test

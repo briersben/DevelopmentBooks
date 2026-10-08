@@ -15,8 +15,9 @@ Status key: `[ ]` not started, `[~]` in progress, `[x]` completed
       `id` and `quantity` to be at least 1, cascaded validation for POST basket items, and
       structured HTTP 400 responses for validation failures. Verified with controller tests
       covering zero/negative quantities and a zero book id.
-- [ ] **4. Explicit empty/null basket tests** — pin down behavior for `POST []` (zero price
-      summary) and `null` body (400 expected). Currently untested/unclear.
+- [x] **4. Explicit empty/null basket tests** — verified the service returns a zero-price
+      summary for an empty list, `POST []` returns zero price fields, and a JSON `null` body
+      is rejected with HTTP 400.
 - [ ] **5. Migrate price math from `double` to `BigDecimal`** — in `CalculatePriceService`,
       `BookGroup`, `PriceSummaryDto` — to avoid floating-point rounding drift in currency math.
       Test first: assert exact BigDecimal scale-2 values for tricky discount splits.

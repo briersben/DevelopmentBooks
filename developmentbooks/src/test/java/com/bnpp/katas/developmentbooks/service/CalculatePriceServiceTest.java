@@ -48,6 +48,16 @@ class CalculatePriceServiceTest {
 	private CalculatePriceService calculatePriceService;
 
 	@Test
+	@DisplayName("calculate price for an empty basket should return a zero price summary")
+	void calculatePriceForEmptyBasket_shouldReturnZeroPriceSummary() {
+		PriceSummaryDto priceSummary = calculatePriceService.getPriceSummary(List.of());
+
+		assertEquals(0.0, priceSummary.getActualPrice());
+		assertEquals(0.0, priceSummary.getTotalDiscount());
+		assertEquals(0.0, priceSummary.getFinalPrice());
+	}
+
+	@Test
 	@DisplayName("calculate price for a book should return 50")
 	void calculatePriceForABook_shouldReturnFifty() {
 		List<BookDto> listOfBooks = new ArrayList<BookDto>();
