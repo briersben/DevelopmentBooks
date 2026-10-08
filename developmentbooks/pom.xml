@@ -99,6 +99,13 @@
         <artifactId>maven-compiler-plugin</artifactId>
         <configuration>
           <release>${java.version}</release>
+          <annotationProcessorPaths>
+            <path>
+              <groupId>org.projectlombok</groupId>
+              <artifactId>lombok</artifactId>
+              <version>${lombok.version}</version>
+            </path>
+          </annotationProcessorPaths>
         </configuration>
 	  </plugin>
 	  <plugin>
@@ -159,7 +166,7 @@
 		<executions>
 		  <execution>
 		    <id>npm-install</id>
-		    <phase>generate-resources</phase>
+		    <phase>prepare-package</phase>
 		      <goals>
 		        <goal>exec</goal>
 		      </goals>

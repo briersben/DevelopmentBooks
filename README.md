@@ -52,6 +52,7 @@ Develop a application to **calculate the best price** of any conceivable shoppin
 ```
 https://github.com/2022-DEV1-056/DevelopmentBooks
 ```
+* Install Node.js, and ensure `node` and `npm` are available on `PATH` for building and packaging the frontend. A backend-only compile (`mvn compile`) does not require Node.js/npm.
 * You can build the project and run the tests by running ```mvn clean install```
 
 ## How to run the application
