@@ -1,6 +1,7 @@
 package com.bnpp.katas.developmentbooks.service;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -26,8 +27,8 @@ import com.bnpp.katas.developmentbooks.store.DiscountProviderEnum;
 @Service
 public class CalculatePriceService {
 
-	private static final double NO_DISCOUNT = BigDecimal.ZERO.doubleValue();
-	private static final int HUNDRED = 100;
+	private static final BigDecimal ZERO_MONEY = new BigDecimal("0.00");
+	private static final BigDecimal HUNDRED = BigDecimal.valueOf(100);
 	private static final int ZERO_PERCENT = BigDecimal.ZERO.intValue();
 	private static final int ONE_QUANTITY = BigDecimal.ONE.intValue();
 
@@ -75,18 +76,20 @@ public class CalculatePriceService {
 	}
 
 	private void updateBestDiscount(PriceSummaryDto priceSummaryDto, List<BookGroup> listOfBookGroup) {
-		double discount = listOfBookGroup.stream().mapToDouble(BookGroup::getDiscount).sum();
-		if (discount >= priceSummaryDto.getTotalDiscount()) {
+		BigDecimal discount = listOfBookGroup.stream().map(BookGroup::getDiscount)
+				.reduce(ZERO_MONEY, BigDecimal::add);
+		if (discount.compareTo(priceSummaryDto.getTotalDiscount()) >= 0) {
 			priceSummaryDto.setListOfBookGroups(listOfBookGroup);
-			double actualPrice = listOfBookGroup.stream().mapToDouble(BookGroup::getActualPrice).sum();
+			BigDecimal actualPrice = listOfBookGroup.stream().map(BookGroup::getActualPrice)
+					.reduce(ZERO_MONEY, BigDecimal::add);
 			priceSummaryDto.setActualPrice(actualPrice);
 			priceSummaryDto.setTotalDiscount(discount);
-			priceSummaryDto.setFinalPrice(actualPrice - discount);
+			priceSummaryDto.setFinalPrice(actualPrice.subtract(discount));
 		}
 	}
 
 	private void validateBooks(List<BookDto> listOfBooks) {
-		Map<Integer, Double> bookIdPriceMap = getBookIdPriceMap();
+		Map<Integer, BigDecimal> bookIdPriceMap = getBookIdPriceMap();
 		List<Integer> missingBookIds = listOfBooks.stream()
 				.filter(book -> BooleanUtils.isFalse(bookIdPriceMap.containsKey(book.getId()))).map(BookDto::getId)
 				.collect(Collectors.toList());
@@ -116,12 +119,14 @@ public class CalculatePriceService {
 	}
 
 	private BookGroup getBookGroupWithoutDiscount(Map<Integer, Integer> bookIdQuantityMap) {
-		Map<Integer, Double> bookIdPriceMap = getBookIdPriceMap();
+		Map<Integer, BigDecimal> bookIdPriceMap = getBookIdPriceMap();
 		Set<Integer> bookIds = bookIdQuantityMap.keySet();
-		double actualPrice = bookIds.stream()
-				.mapToDouble(bookId -> bookIdPriceMap.get(bookId) * bookIdQuantityMap.get(bookId)).sum();
+		BigDecimal actualPrice = bookIds.stream()
+				.map(bookId -> bookIdPriceMap.get(bookId).multiply(BigDecimal.valueOf(bookIdQuantityMap.get(bookId))))
+				.reduce(ZERO_MONEY, BigDecimal::add);
 		int numberOfBooks = bookIdQuantityMap.values().stream().mapToInt(Integer::intValue).sum();
-		return new BookGroup(bookIds.stream().collect(Collectors.toList()), ZERO_PERCENT, actualPrice, NO_DISCOUNT, numberOfBooks);
+		return new BookGroup(bookIds.stream().collect(Collectors.toList()), ZERO_PERCENT, actualPrice, ZERO_MONEY,
+				numberOfBooks);
 	}
 
 	private List<Integer> getApplicableDiscounts(int numberOfBooks) {
@@ -136,16 +141,17 @@ public class CalculatePriceService {
 	}
 
 	private BookGroup getBookGroup(List<Integer> listOfBookToGroup) {
-		Map<Integer, Double> bookIdPriceMap = getBookIdPriceMap();
-		double actualPrice = listOfBookToGroup.stream().mapToDouble(bookId -> bookIdPriceMap.get(bookId) * ONE_QUANTITY)
-				.sum();
+		Map<Integer, BigDecimal> bookIdPriceMap = getBookIdPriceMap();
+		BigDecimal actualPrice = listOfBookToGroup.stream()
+				.map(bookId -> bookIdPriceMap.get(bookId).multiply(BigDecimal.valueOf(ONE_QUANTITY)))
+				.reduce(ZERO_MONEY, BigDecimal::add);
 		int discountPercentage = getDiscountPercentage(listOfBookToGroup.size());
-		double discount = (actualPrice * discountPercentage) / HUNDRED;
+		BigDecimal discount = actualPrice.multiply(BigDecimal.valueOf(discountPercentage))
+				.divide(HUNDRED, 2, RoundingMode.HALF_UP);
 		return new BookGroup(listOfBookToGroup, discountPercentage, actualPrice, discount, listOfBookToGroup.size());
-
 	}
 
-	private Map<Integer, Double> getBookIdPriceMap() {
+	private Map<Integer, BigDecimal> getBookIdPriceMap() {
 		return Arrays.stream(DevelopmentBooksEnum.values())
 				.collect(Collectors.toMap(DevelopmentBooksEnum::getId, DevelopmentBooksEnum::getPrice));
 	}

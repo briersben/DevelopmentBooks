@@ -1,5 +1,6 @@
 package com.bnpp.katas.developmentbooks.dto;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 import lombok.AllArgsConstructor;
@@ -10,7 +11,7 @@ import lombok.Getter;
 public class BookGroup {
 	private List<Integer> listOfbooks;
 	private int discountPercentage;
-	private double actualPrice;
-	private double discount;
+	private BigDecimal actualPrice;
+	private BigDecimal discount;
 	private int numberOfBooks;
 }

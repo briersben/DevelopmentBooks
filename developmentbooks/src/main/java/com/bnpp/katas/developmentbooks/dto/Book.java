@@ -1,5 +1,7 @@
 package com.bnpp.katas.developmentbooks.dto;
 
+import java.math.BigDecimal;
+
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -12,6 +14,6 @@ public class Book {
 	private String title;
 	private String author;
 	private int year;
-	private double price;
+	private BigDecimal price;
 	private String imageUrl;
 }

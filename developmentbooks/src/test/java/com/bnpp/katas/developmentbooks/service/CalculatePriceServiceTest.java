@@ -3,8 +3,8 @@ package com.bnpp.katas.developmentbooks.service;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 import org.junit.jupiter.api.DisplayName;
@@ -30,19 +30,19 @@ class CalculatePriceServiceTest {
 	private static final int SIX = 6;
 	private static final int SEVEN = 7;
 	private static final int TWENTY = 20;
-	private static final int FOURTY = 40;
-	private static final double BOOK_PRICE = 50.00;
-	private static final double PRICE_OF_TWO_DISTINCT_BOOKS = 95.00;
-	private static final double PRICE_OF_THREE_DISTINCT_BOOKS = 135.00;
-	private static final double PRICE_OF_FOUR_DISTINCT_BOOKS = 160.00;
-	private static final double PRICE_OF_FIVE_DISTINCT_BOOKS = 187.50;
-	private static final double PRICE_OF_THREE_BOOKS_AFTER_APPLY_DISCOUNT_FOR_TWO = 145.00;
-	private static final double PRICE_OF_BOOKS_APPLY_DISCOUNT_TO_DISTINCT_BOOKS = 370.00;
-	private static final double ACTUALPRICE_OF_FOUR_BOOKS = 200.00;
-	private static final double ACTUALPRICE_OF_EIGHT_BOOKS = 400.00;
-	private static final double DISCOUNTPRICE_FOR_EIGHT_BOOKS = 80.00;
-	private static final double PRICE_OF_EIGHT_BOOKS_AFTER_DISCOUNT = 320.00;
-	private static final double PRICE_OF_FIVE_COPIES_OF_SAME_BOOK = 250.00;
+	private static final BigDecimal FOURTY = new BigDecimal("40.00");
+	private static final BigDecimal BOOK_PRICE = new BigDecimal("50.00");
+	private static final BigDecimal PRICE_OF_TWO_DISTINCT_BOOKS = new BigDecimal("95.00");
+	private static final BigDecimal PRICE_OF_THREE_DISTINCT_BOOKS = new BigDecimal("135.00");
+	private static final BigDecimal PRICE_OF_FOUR_DISTINCT_BOOKS = new BigDecimal("160.00");
+	private static final BigDecimal PRICE_OF_FIVE_DISTINCT_BOOKS = new BigDecimal("187.50");
+	private static final BigDecimal PRICE_OF_THREE_BOOKS_AFTER_APPLY_DISCOUNT_FOR_TWO = new BigDecimal("145.00");
+	private static final BigDecimal PRICE_OF_BOOKS_APPLY_DISCOUNT_TO_DISTINCT_BOOKS = new BigDecimal("370.00");
+	private static final BigDecimal ACTUALPRICE_OF_FOUR_BOOKS = new BigDecimal("200.00");
+	private static final BigDecimal ACTUALPRICE_OF_EIGHT_BOOKS = new BigDecimal("400.00");
+	private static final BigDecimal DISCOUNTPRICE_FOR_EIGHT_BOOKS = new BigDecimal("80.00");
+	private static final BigDecimal PRICE_OF_EIGHT_BOOKS_AFTER_DISCOUNT = new BigDecimal("320.00");
+	private static final BigDecimal PRICE_OF_FIVE_COPIES_OF_SAME_BOOK = new BigDecimal("250.00");
 
 	@Autowired
 	private CalculatePriceService calculatePriceService;
@@ -52,9 +52,9 @@ class CalculatePriceServiceTest {
 	void calculatePriceForEmptyBasket_shouldReturnZeroPriceSummary() {
 		PriceSummaryDto priceSummary = calculatePriceService.getPriceSummary(List.of());
 
-		assertEquals(0.0, priceSummary.getActualPrice());
-		assertEquals(0.0, priceSummary.getTotalDiscount());
-		assertEquals(0.0, priceSummary.getFinalPrice());
+		assertEquals(new BigDecimal("0.00"), priceSummary.getActualPrice());
+		assertEquals(new BigDecimal("0.00"), priceSummary.getTotalDiscount());
+		assertEquals(new BigDecimal("0.00"), priceSummary.getFinalPrice());
 	}
 
 	@Test
@@ -64,20 +64,20 @@ class CalculatePriceServiceTest {
 		BookDto bookDto = new BookDto(ONE, ONE);
 		listOfBooks.add(bookDto);
 
-		Double finalPrice = calculatePriceService.getPriceSummary(listOfBooks).getFinalPrice();
+		BigDecimal finalPrice = calculatePriceService.getPriceSummary(listOfBooks).getFinalPrice();
 
 		assertEquals(BOOK_PRICE, finalPrice);
 	}
 
 	@ParameterizedTest
-	@CsvSource({ "1,50", "2,100", "3,150", "4,200", "10,500" })
+	@CsvSource({ "1,50.00", "2,100.00", "3,150.00", "4,200.00", "10,500.00" })
 	@DisplayName("calculate price should return price based on quantities")
-	void calculatePrice_shouldReturnPriceBasedOnQuantity(int quantities, double expectedPrice) {
+	void calculatePrice_shouldReturnPriceBasedOnQuantity(int quantities, BigDecimal expectedPrice) {
 		List<BookDto> listOfBooks = new ArrayList<BookDto>();
 		BookDto bookDto = new BookDto(ONE, quantities);
 		listOfBooks.add(bookDto);
 
-		Double finalPrice = calculatePriceService.getPriceSummary(listOfBooks).getFinalPrice();
+		BigDecimal finalPrice = calculatePriceService.getPriceSummary(listOfBooks).getFinalPrice();
 
 		assertEquals(expectedPrice, finalPrice);
 	}
@@ -91,7 +91,7 @@ class CalculatePriceServiceTest {
 		listOfBooks.add(firstBook);
 		listOfBooks.add(secondBook);
 
-		Double finalPrice = calculatePriceService.getPriceSummary(listOfBooks).getFinalPrice();
+		BigDecimal finalPrice = calculatePriceService.getPriceSummary(listOfBooks).getFinalPrice();
 
 		assertEquals(PRICE_OF_TWO_DISTINCT_BOOKS, finalPrice);
 	}
@@ -107,7 +107,7 @@ class CalculatePriceServiceTest {
 		listOfBooks.add(secondBook);
 		listOfBooks.add(thirdBook);
 
-		Double finalPrice = calculatePriceService.getPriceSummary(listOfBooks).getFinalPrice();
+		BigDecimal finalPrice = calculatePriceService.getPriceSummary(listOfBooks).getFinalPrice();
 
 		assertEquals(PRICE_OF_THREE_DISTINCT_BOOKS, finalPrice);
 	}
@@ -125,7 +125,7 @@ class CalculatePriceServiceTest {
 		listOfBooks.add(thirdBook);
 		listOfBooks.add(fourBook);
 
-		Double finalPrice = calculatePriceService.getPriceSummary(listOfBooks).getFinalPrice();
+		BigDecimal finalPrice = calculatePriceService.getPriceSummary(listOfBooks).getFinalPrice();
 
 		assertEquals(PRICE_OF_FOUR_DISTINCT_BOOKS, finalPrice);
 	}
@@ -145,9 +145,11 @@ class CalculatePriceServiceTest {
 		listOfBooks.add(fourBook);
 		listOfBooks.add(fifthBook);
 
-		Double finalPrice = calculatePriceService.getPriceSummary(listOfBooks).getFinalPrice();
+		PriceSummaryDto priceSummary = calculatePriceService.getPriceSummary(listOfBooks);
 
-		assertEquals(PRICE_OF_FIVE_DISTINCT_BOOKS, finalPrice);
+		assertEquals(PRICE_OF_FIVE_DISTINCT_BOOKS, priceSummary.getFinalPrice());
+		assertEquals(new BigDecimal("250.00"), priceSummary.getActualPrice());
+		assertEquals(new BigDecimal("62.50"), priceSummary.getTotalDiscount());
 	}
 
 	@Test
@@ -159,7 +161,7 @@ class CalculatePriceServiceTest {
 		listOfBooks.add(firstBook);
 		listOfBooks.add(secondBook);
 
-		Double finalPrice = calculatePriceService.getPriceSummary(listOfBooks).getFinalPrice();
+		BigDecimal finalPrice = calculatePriceService.getPriceSummary(listOfBooks).getFinalPrice();
 
 		assertEquals(PRICE_OF_THREE_BOOKS_AFTER_APPLY_DISCOUNT_FOR_TWO, finalPrice);
 	}
@@ -179,7 +181,7 @@ class CalculatePriceServiceTest {
 		listOfBooks.add(fourBook);
 		listOfBooks.add(fifthBook);
 
-		Double finalPrice = calculatePriceService.getPriceSummary(listOfBooks).getFinalPrice();
+		BigDecimal finalPrice = calculatePriceService.getPriceSummary(listOfBooks).getFinalPrice();
 
 		assertEquals(PRICE_OF_BOOKS_APPLY_DISCOUNT_TO_DISTINCT_BOOKS, finalPrice);
 	}
@@ -220,7 +222,7 @@ class CalculatePriceServiceTest {
 		for (BookGroup bookGroups : priceSummary.getListOfBookGroups()) {
 			assertEquals(FOUR, bookGroups.getNumberOfBooks(), "Group should have 4 books each to get best discount");
 			assertEquals(TWENTY, bookGroups.getDiscountPercentage(), "Best discount is with 20% discount");
-			assertEquals(FOURTY, bookGroups.getDiscount(), "Discount for 4 books with 20% should be 40");
+			assertEquals(FOURTY, bookGroups.getDiscount(), "Discount for 4 books with 20% should be 40.00");
 			assertEquals(ACTUALPRICE_OF_FOUR_BOOKS, bookGroups.getActualPrice(), "Actual price for 4 books is 200");
 			assertEquals(FOUR, bookGroups.getListOfbooks().size(), "Each list should have 4 book id");
 		}
@@ -238,7 +240,7 @@ class CalculatePriceServiceTest {
 		listOfBooks.add(firstEntry);
 		listOfBooks.add(secondEntry);
 
-		Double finalPrice = calculatePriceService.getPriceSummary(listOfBooks).getFinalPrice();
+		BigDecimal finalPrice = calculatePriceService.getPriceSummary(listOfBooks).getFinalPrice();
 
 		assertEquals(PRICE_OF_FIVE_COPIES_OF_SAME_BOOK, finalPrice);
 	}

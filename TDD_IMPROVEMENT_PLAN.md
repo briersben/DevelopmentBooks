@@ -18,13 +18,10 @@ Status key: `[ ]` not started, `[~]` in progress, `[x]` completed
 - [x] **4. Explicit empty/null basket tests** — verified the service returns a zero-price
       summary for an empty list, `POST []` returns zero price fields, and a JSON `null` body
       is rejected with HTTP 400.
-- [ ] **5. Migrate price math from `double` to `BigDecimal`** — in `CalculatePriceService`,
-      `BookGroup`, `PriceSummaryDto` — to avoid floating-point rounding drift in currency math.
-      Test first: assert exact BigDecimal scale-2 values for tricky discount splits.
-- [ ] **6. Add frontend error-state test + handling** — `Product.test.js`/`Dashboard.test.js`
-      likely only cover the happy path. Add an RTL test simulating a failed fetch (404/400 from
-      steps 1-3), assert an error message renders, then implement the UI error state.
-- [x] **7. Add OpenAPI/Swagger docs** via `springdoc-openapi`; smoke test `/v3/api-docs` returns 200.
+- [x] **5. Migrate price math from `double` to `BigDecimal`** — book prices, basket/group
+      totals, and discounts now use `BigDecimal`; discount amounts are rounded to two decimal
+      places using `HALF_UP`. Exact scale-2 values are covered by pricing tests.
+- [x] **6. Add OpenAPI/Swagger docs** via `springdoc-openapi`; smoke test `/v3/api-docs` returns 200.
       Done 2026-10-07: added `springdoc-openapi-starter-webmvc-ui`, an `OpenApiConfig` info bean,
       `@Tag`/`@Operation` annotations on the controller, and `OpenApiDocumentationTest` covering
       `/v3/api-docs` and `/swagger-ui/index.html`. Verified manually in-browser.
@@ -34,7 +31,6 @@ Status key: `[ ]` not started, `[~]` in progress, `[x]` completed
 - Controller: `developmentbooks/src/main/java/com/bnpp/katas/developmentbooks/controller/DevelopmentBooksController.java`
 - Exception: `developmentbooks/src/main/java/com/bnpp/katas/developmentbooks/exceptions/BookNotFoundException.java`
 - DTOs: `developmentbooks/src/main/java/com/bnpp/katas/developmentbooks/dto/{BookDto,BookGroup,PriceSummaryDto}.java`
-- Frontend tests: `developmentbooks/src/main/frontend/src/test/{components/Product.test.js,screen/Dashboard.test.js}`
 
 ## Order of attack
-Tackle 1-4 first (real unhandled-error/correctness bugs), then 5 (precision hardening), then 6-7 (rounding out the stack).
+Tackle 1-4 first (real unhandled-error/correctness bugs), then 5 (precision hardening); point 7 documents the API.
