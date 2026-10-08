@@ -1,8 +1,11 @@
 package com.bnpp.katas.developmentbooks.controller;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.ArgumentMatchers.anyList;
+import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import java.util.ArrayList;
@@ -18,6 +21,7 @@ import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
 
 import com.bnpp.katas.developmentbooks.dto.BookDto;
+import com.bnpp.katas.developmentbooks.exceptions.BookNotFoundException;
 import com.bnpp.katas.developmentbooks.service.CalculatePriceService;
 import com.bnpp.katas.developmentbooks.service.DevelopmentBooksService;
 
@@ -76,6 +80,18 @@ class DevelopmentBooksControllerTest {
 
 		mockMvc.perform(post(FETCH_PRICE_SUMMARY_ENDPOINT).contentType(MediaType.APPLICATION_JSON)
 				.content(new JsonMapper().writeValueAsString(listOfBooks))).andExpect(status().isOk());
+	}
+
+	@Test
+	@DisplayName("API fetchPriceSummary should return 404 with a structured error when a book id is missing")
+	void fetchPriceSummary_Api_shouldReturnNotFoundForMissingBookId() throws Exception {
+		when(calculatePriceService.getPriceSummary(anyList()))
+				.thenThrow(new BookNotFoundException(List.of(THREE)));
+
+		mockMvc.perform(post(FETCH_PRICE_SUMMARY_ENDPOINT).contentType(MediaType.APPLICATION_JSON)
+				.content(new JsonMapper().writeValueAsString(List.of(new BookDto(THREE, ONE)))))
+				.andExpect(status().isNotFound())
+				.andExpect(jsonPath("$.message").value("Book id's not found : [3]"));
 	}
 
 	@Test

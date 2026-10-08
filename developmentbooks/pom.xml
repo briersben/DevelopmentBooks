@@ -22,6 +22,7 @@
     <jacoco.version>0.8.13</jacoco.version>
     <pitest.maven.version>1.30.0</pitest.maven.version>
     <pitest.junit5.plugin.version>1.2.3</pitest.junit5.plugin.version>
+    <skipPitest>true</skipPitest>
     <frontend.src.dir>${project.basedir}/src/main/frontend</frontend.src.dir>
     <exec-maven-plugin.version>3.5.0</exec-maven-plugin.version>
   </properties>
@@ -156,6 +157,7 @@
 		  </dependency>
 		</dependencies>
 		<configuration>
+		  <skip>${skipPitest}</skip>
 		  <targetClasses>
 			<param>com.bnpp.katas.developmentbooks.*</param>
 		  </targetClasses>

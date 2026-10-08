@@ -8,10 +8,9 @@ Status key: `[ ]` not started, `[~]` in progress, `[x]` completed
       `Collectors.toMap(BookDto::getId, BookDto::getQuantity)` with no merge function —
       duplicate ids in the POST body throw an unhandled `IllegalStateException` (500).
       Fix: add a merge function (`Integer::sum`). Test first in `CalculatePriceServiceTest`.
-- [ ] **2. Add global exception handling** — no `@RestControllerAdvice` exists.
-      `BookNotFoundException` and other runtime errors currently leak as raw 500s.
-      Add an `@ExceptionHandler` for `BookNotFoundException` → 404 with a structured body.
-      Test first via `@WebMvcTest` expecting 404 + message.
+- [x] **2. Add global exception handling** — added `GlobalExceptionHandler` mapping
+      `BookNotFoundException` to HTTP 404 with a structured JSON message body. Verified by
+      `DevelopmentBooksControllerTest`.
 - [ ] **3. Add input validation on `BookDto`** — no `@Min(1)` on `id`/`quantity`. Add Bean
       Validation + `@Valid` on the controller + handle `MethodArgumentNotValidException` → 400.
       Test first: POST with quantity 0/negative expects 400.
