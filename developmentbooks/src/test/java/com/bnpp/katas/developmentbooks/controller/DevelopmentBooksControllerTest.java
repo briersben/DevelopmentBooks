@@ -13,6 +13,8 @@ import java.util.List;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.webmvc.test.autoconfigure.WebMvcTest;
@@ -92,6 +94,25 @@ class DevelopmentBooksControllerTest {
 				.content(new JsonMapper().writeValueAsString(List.of(new BookDto(THREE, ONE)))))
 				.andExpect(status().isNotFound())
 				.andExpect(jsonPath("$.message").value("Book id's not found : [3]"));
+	}
+
+	@ParameterizedTest
+	@ValueSource(ints = { 0, -1 })
+	@DisplayName("API fetchPriceSummary should reject non-positive quantities")
+	void fetchPriceSummary_Api_shouldRejectNonPositiveQuantity(int quantity) throws Exception {
+		mockMvc.perform(post(FETCH_PRICE_SUMMARY_ENDPOINT).contentType(MediaType.APPLICATION_JSON)
+				.content(new JsonMapper().writeValueAsString(List.of(new BookDto(ONE, quantity)))))
+				.andExpect(status().isBadRequest())
+				.andExpect(jsonPath("$.message").value("Request validation failed"));
+	}
+
+	@Test
+	@DisplayName("API fetchPriceSummary should reject a non-positive book id")
+	void fetchPriceSummary_Api_shouldRejectNonPositiveBookId() throws Exception {
+		mockMvc.perform(post(FETCH_PRICE_SUMMARY_ENDPOINT).contentType(MediaType.APPLICATION_JSON)
+				.content(new JsonMapper().writeValueAsString(List.of(new BookDto(0, ONE)))))
+				.andExpect(status().isBadRequest())
+				.andExpect(jsonPath("$.message").value("Request validation failed"));
 	}
 
 	@Test

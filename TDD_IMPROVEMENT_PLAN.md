@@ -11,9 +11,10 @@ Status key: `[ ]` not started, `[~]` in progress, `[x]` completed
 - [x] **2. Add global exception handling** — added `GlobalExceptionHandler` mapping
       `BookNotFoundException` to HTTP 404 with a structured JSON message body. Verified by
       `DevelopmentBooksControllerTest`.
-- [ ] **3. Add input validation on `BookDto`** — no `@Min(1)` on `id`/`quantity`. Add Bean
-      Validation + `@Valid` on the controller + handle `MethodArgumentNotValidException` → 400.
-      Test first: POST with quantity 0/negative expects 400.
+- [x] **3. Add input validation on `BookDto`** — added Bean Validation constraints requiring
+      `id` and `quantity` to be at least 1, cascaded validation for POST basket items, and
+      structured HTTP 400 responses for validation failures. Verified with controller tests
+      covering zero/negative quantities and a zero book id.
 - [ ] **4. Explicit empty/null basket tests** — pin down behavior for `POST []` (zero price
       summary) and `null` body (400 expected). Currently untested/unclear.
 - [ ] **5. Migrate price math from `double` to `BigDecimal`** — in `CalculatePriceService`,

@@ -16,6 +16,7 @@ Calculate the best price of any shopping basket of the 5 "Development Books" usi
 
 ## Conventions
 - Write tests first (TDD) — add/update a test under `developmentbooks/src/test/java/com/bnpp/...` before changing production code.
+- For improvement work using TDD, follow the Red-Green-Refactor cycle in explicit steps: add a focused failing test and run it, then pause and explain the failure before implementing; after the smallest implementation makes it pass, pause and explain the result before proceeding to refactoring or other changes. Wait for the user's go-ahead at each pause.
 - Keep pricing/discount logic in the `service` package (e.g. `CalculatePriceService`, `DevelopmentBooksService`); keep HTTP concerns in the `controller` package.
 - Favor immutable DTOs and Lombok annotations already used in the codebase over boilerplate getters/setters.
 

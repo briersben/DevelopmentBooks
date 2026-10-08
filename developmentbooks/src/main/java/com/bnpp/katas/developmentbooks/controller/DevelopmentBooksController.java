@@ -3,6 +3,7 @@ package com.bnpp.katas.developmentbooks.controller;
 import java.util.List;
 import java.util.Map;
 
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -38,7 +39,7 @@ public class DevelopmentBooksController {
 
 	@Operation(summary = "Compute the best price for a basket of books, applying bulk-set discounts")
 	@PostMapping("${developmentbooks.endpoints.pricesummary}")
-	public PriceSummaryDto fetchPriceSummary(@RequestBody List<BookDto> listOfBooks) {
+	public PriceSummaryDto fetchPriceSummary(@RequestBody List<@Valid BookDto> listOfBooks) {
 		return calculatePriceService.getPriceSummary(listOfBooks);
 	}
 
