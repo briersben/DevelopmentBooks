@@ -85,6 +85,7 @@ Once the application runs you should see below message in console log
 		
 	http://localhost:<PORT>/
 ```
+* Spring Boot Actuator's health endpoint is available at `http://localhost:8080/actuator/health` (replace `8080` with the configured port if different).
 ## Test reports
 
 * Once after successful build of ```mvn clean install```, navigate to target folder of the project root directory 
