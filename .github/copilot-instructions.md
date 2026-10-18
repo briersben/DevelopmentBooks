@@ -20,6 +20,17 @@ Calculate the best price of any shopping basket of the 5 "Development Books" usi
 - Keep pricing/discount logic in the `service` package (e.g. `CalculatePriceService`, `DevelopmentBooksService`); keep HTTP concerns in the `controller` package.
 - Favor immutable DTOs and Lombok annotations already used in the codebase over boilerplate getters/setters.
 
+## TDD improvement focus
+- Use [TDD_IMPROVEMENT_PLAN.md](../TDD_IMPROVEMENT_PLAN.md) for the improvement backlog and its priority/order.
+- Focus relevant improvements on these key files:
+  - Pricing service: `developmentbooks/src/main/java/com/bnpp/katas/developmentbooks/service/CalculatePriceService.java`
+  - API controller: `developmentbooks/src/main/java/com/bnpp/katas/developmentbooks/controller/DevelopmentBooksController.java`
+  - Domain exception: `developmentbooks/src/main/java/com/bnpp/katas/developmentbooks/exceptions/BookNotFoundException.java`
+  - DTO: `developmentbooks/src/main/java/com/bnpp/katas/developmentbooks/dto/BookDto.java`
+  - Group DTO: `developmentbooks/src/main/java/com/bnpp/katas/developmentbooks/dto/BookGroup.java`
+  - Price summary DTO: `developmentbooks/src/main/java/com/bnpp/katas/developmentbooks/dto/PriceSummaryDto.java`
+- Inspect and update the corresponding tests under `developmentbooks/src/test/java/com/bnpp/` when changing these areas.
+
 ## Build & test
 - Full build + tests: `mvn clean install` (run from `developmentbooks/`)
 - Reports after build: JaCoCo (`target/site/jacoco/index.html`), PIT mutation testing (`target/pit-reports/<timestamp>/index.html`)

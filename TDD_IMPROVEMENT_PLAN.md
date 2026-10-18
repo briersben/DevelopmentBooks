@@ -33,4 +33,4 @@ Status key: `[ ]` not started, `[~]` in progress, `[x]` completed
 - DTOs: `developmentbooks/src/main/java/com/bnpp/katas/developmentbooks/dto/{BookDto,BookGroup,PriceSummaryDto}.java`
 
 ## Order of attack
-Tackle 1-4 first (real unhandled-error/correctness bugs), then 5 (precision hardening); point 7 documents the API.
+Tackle 1-4 first (real unhandled-error/correctness bugs), then 5 (precision hardening); point 6 documents the API.
